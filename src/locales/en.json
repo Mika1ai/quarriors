@@ -1,0 +1,7 @@
+{
+  "auth": {
+    "nicknamePlaceholder": "Nickname",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password"
+  }
+}

@@ -1,0 +1,11 @@
+@use "@/styles/utilities/variables" as *;
+
+@mixin heading-lg() {
+  font-size: $font-size-lg;
+  line-height: $line-height-sm;
+}
+
+@mixin text-md() {
+  font-size: $font-size-md;
+  line-height: $line-height-md;
+}
