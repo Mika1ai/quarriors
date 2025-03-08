@@ -1,6 +1,10 @@
 export const ROUTES = {
   SIGNUP: {
-    PATH: "/signup",
+    PATH: "/sign-up",
     NAME: "SignUp",
+  },
+  SIGNIN: {
+    PATH: "/sign-in",
+    NAME: "SignIn",
   },
 };

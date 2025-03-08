@@ -57,9 +57,12 @@ const onSubmit = async () => {
     <template #footer>
       <UiButton
         type="submit"
-        text="Submit"
         :disabled="!meta.valid"
-      ></UiButton>
+      >
+        Submit
+      </UiButton>
+
+      <UiButton to="/sign-in">Sign In</UiButton>
     </template>
   </UiForm>
 </template>

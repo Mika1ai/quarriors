@@ -29,7 +29,12 @@ const onSubmit = () => {
     </template>
 
     <template #footer>
-      <button type="submit">Submit</button>
+      <UiButton
+        type="submit"
+        :disabled="!meta.valid"
+      >
+        Submit
+      </UiButton>
     </template>
   </UiForm>
 </template>

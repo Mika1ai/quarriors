@@ -1,8 +1,8 @@
-import { createMemoryHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 import { ROUTES } from "./routes";
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes: [
     {
       path: "/",
@@ -12,6 +12,12 @@ const router = createRouter({
       path: ROUTES.SIGNUP.PATH,
       name: ROUTES.SIGNUP.NAME,
       component: () => import(`@/views/${ROUTES.SIGNUP.NAME}.vue`),
+      meta: { keepAlive: true, isAuthPage: true },
+    },
+    {
+      path: ROUTES.SIGNIN.PATH,
+      name: ROUTES.SIGNIN.NAME,
+      component: () => import(`@/views/${ROUTES.SIGNIN.NAME}.vue`),
       meta: { keepAlive: true, isAuthPage: true },
     },
   ],
