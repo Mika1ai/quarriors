@@ -1,17 +1,23 @@
 import { supabase } from "./supabase.js";
 
-export async function verifyUser(values) {
-  const { data, error } = await supabase.auth.verifyOtp({
-    email: "baranau.mikalai@gmail.com",
-    token: values.token,
-    type: "email",
-  });
+export async function verifyUser(details) {
+  const { data: verificationData, error: verificationError } =
+    await supabase.auth.verifyOtp({
+      email: details.email,
+      token: details.token,
+      type: "email",
+    });
 
-  console.log(data, error);
+  if (verificationError) {
+    return { verificationData, verificationError };
+  }
 
-  await supabase
-    .from("users")
-    .insert([{ id: data.user.id, nickname: data.user.user_metadata.nickname }]);
+  await supabase.from("users").insert([
+    {
+      id: verificationData.user.id,
+      nickname: verificationData.user.user_metadata.nickname,
+    },
+  ]);
 
-  console.log("!!!");
+  return { verificationData, verificationError };
 }

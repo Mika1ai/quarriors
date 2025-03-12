@@ -1,40 +1,76 @@
 <script setup>
+import { ref, computed } from "vue";
 import { verifyUser } from "@/services";
-import { useForm } from "vee-validate";
-import * as yup from "yup";
+import { useField } from "vee-validate";
+import { otpSchema } from "@/utilities/schemas";
 
-const { meta, values } = useForm({
-  validationSchema: yup.object({
-    token: yup.string().required().min(6),
-  }),
+const props = defineProps({
+  registrationData: { required: true },
 });
 
-const onSubmit = () => {
-  verifyUser(values);
+const formErrorMessage = ref(null);
+
+const {
+  meta: otpMeta,
+  value: otpValue,
+  errorMessage: otpErrorMessage,
+  setErrors: otpSetErrors,
+} = useField("otp", otpSchema);
+
+const onFormSubmit = async () => {
+  const { verificationData, verificationError } = await verifyUser({
+    email: props.registrationData.user.email,
+    token: otpValue.value,
+  });
+
+  if (verificationError) {
+    switch (verificationError.code) {
+      case "otp_expired": {
+        otpSetErrors("otp_expired");
+        return;
+      }
+      default: {
+        formErrorMessage.value = "unexpected_failure";
+        return;
+      }
+    }
+  }
+
+  console.log(verificationData);
 };
+
+const isFormValid = computed(() => {
+  return otpMeta.valid;
+});
 </script>
 
 <template>
-  <UiForm @on-submit="onSubmit">
+  <UiForm @on-submit="onFormSubmit">
     <template #header>
       <h2>Confirm</h2>
     </template>
 
     <template #default>
       <UiInput
-        name="token"
+        v-model="otpValue"
+        name="otp"
         type="text"
-        placeholder="OTP"
+        :error-message="otpErrorMessage"
+        :placeholder="$t('auth.otp')"
       />
     </template>
 
     <template #footer>
       <UiButton
         type="submit"
-        :disabled="!meta.valid"
+        :disabled="!isFormValid"
       >
         Submit
       </UiButton>
+
+      <div v-if="formErrorMessage">
+        {{ formErrorMessage }}
+      </div>
     </template>
   </UiForm>
 </template>

@@ -8,6 +8,8 @@ import {
   passwordSchema,
 } from "@/utilities/schemas";
 
+const emit = defineEmits(["registration-complete"]);
+
 const formErrorMessage = ref(null);
 
 const {
@@ -31,7 +33,7 @@ const {
   setErrors: passwordSetErrors,
 } = useField("email", passwordSchema);
 
-const onSubmit = async () => {
+const onFormSubmit = async () => {
   formErrorMessage.value = "";
 
   const isNicknameAvailable = await checkNickname(nicknameValue.value);
@@ -67,7 +69,7 @@ const onSubmit = async () => {
     }
   }
 
-  console.log(registrationData, registrationError.code);
+  emit("registration-complete", registrationData);
 };
 
 const isFormValid = computed(() => {
@@ -76,7 +78,7 @@ const isFormValid = computed(() => {
 </script>
 
 <template>
-  <UiForm @on-submit="onSubmit">
+  <UiForm @on-submit="onFormSubmit">
     <template #header>
       <h2 class="heading">Sign Up</h2>
       <p>test</p>
@@ -88,21 +90,21 @@ const isFormValid = computed(() => {
         name="nickname"
         type="text"
         :error-message="nicknameErrorMessage"
-        :placeholder="$t('auth.nicknamePlaceholder')"
+        :placeholder="$t('auth.nickname')"
       />
       <UiInput
         v-model="emailValue"
         name="email"
         type="email"
         :error-message="emailErrorMessage"
-        :placeholder="$t('auth.emailPlaceholder')"
+        :placeholder="$t('auth.email')"
       />
       <UiInput
         v-model="passwordValue"
         name="password"
         type="password"
         :error-message="passwordErrorMessage"
-        :placeholder="$t('auth.passwordPlaceholder')"
+        :placeholder="$t('auth.password')"
       />
     </template>
 

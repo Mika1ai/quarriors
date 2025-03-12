@@ -12,3 +12,5 @@ export const passwordSchema = yup
   .matches(/[A-Z]/)
   .matches(/\d/)
   .matches(/[\W_]/);
+
+export const otpSchema = yup.string().required().min(6);

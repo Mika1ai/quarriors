@@ -1,6 +1,6 @@
 {
   "auth": {
     "emailLabel": "Email",
-    "emailPlaceholder": "example123"
+    "email": "example123"
   }
 }

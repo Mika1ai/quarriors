@@ -1,11 +1,25 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+const registrationData = ref(null);
+
+const onRegistrationComplete = (data) => {
+  registrationData.value = data;
+};
+</script>
 
 <template>
   <section class="sign-up">
     <div class="container">
       <div class="sign-up__layout">
-        <AuthRegistrationForm />
-        <AuthVerificationForm />
+        <AuthRegistrationForm
+          v-if="!registrationData"
+          @registration-complete="onRegistrationComplete"
+        />
+        <AuthVerificationForm
+          v-else
+          :registration-data="registrationData"
+        />
         <UiButton to="/sign-in">Sign In</UiButton>
       </div>
     </div>

@@ -1,7 +1,8 @@
 {
   "auth": {
-    "nicknamePlaceholder": "Nickname",
-    "emailPlaceholder": "Email",
-    "passwordPlaceholder": "Password"
+    "nickname": "Nickname",
+    "email": "Email",
+    "password": "Password",
+    "otp": "OTP"
   }
 }
