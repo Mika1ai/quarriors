@@ -48,5 +48,11 @@ const buttonTag = computed(() => {
   &:hover {
     background-color: $background-color-3;
   }
+
+  &:disabled {
+    background-color: $background-color-1;
+    color: $text-color-2;
+    pointer-events: none;
+  }
 }
 </style>

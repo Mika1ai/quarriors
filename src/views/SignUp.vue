@@ -6,6 +6,7 @@
       <div class="sign-up__layout">
         <AuthRegistrationForm />
         <AuthVerificationForm />
+        <UiButton to="/sign-in">Sign In</UiButton>
       </div>
     </div>
   </section>

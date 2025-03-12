@@ -1,32 +1,20 @@
 <script setup>
-import { useField } from "vee-validate";
+const model = defineModel();
 
 const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-    default: "text",
-  },
-  placeholder: {
-    type: String,
-    default: "",
-  },
+  type: { default: "text" },
+  errorMessage: { default: "" },
+  placeholder: { default: "" },
 });
-
-const { value, errorMessage, meta } = useField(() => props.name);
 </script>
 
 <template>
   <label class="label">
     <input
-      v-model="value"
+      v-model="model"
       :type="type"
       :placeholder="placeholder"
-      class="input"
-      :class="{ 'input--error': !meta.valid }"
+      :class="['input', { 'input--error': !!errorMessage }]"
     />
     <span
       v-if="errorMessage"
@@ -39,6 +27,7 @@ const { value, errorMessage, meta } = useField(() => props.name);
 
 <style lang="scss" scoped>
 .label {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -46,16 +35,31 @@ const { value, errorMessage, meta } = useField(() => props.name);
 .input {
   width: 100%;
   padding: 0.75rem 1.25rem;
-  box-shadow: inset 0 0 100vmax 0 $background-color-1;
   color: $text-color-1;
+  background-color: $background-color-1;
+  border: 1px solid $border-color-1;
   @include text-md;
 
   &::placeholder {
     color: $text-color-2;
   }
 
-  &--error {
-    border: 1px solid red;
+  &:focus-visible {
+    outline: $border-color-1 solid 1px;
   }
+
+  &--error {
+    border-color: $error-color-1;
+
+    &:focus-visible {
+      outline-color: $error-color-1;
+    }
+  }
+}
+.error {
+  position: absolute;
+  top: 100%;
+  padding: 0.25rem 1.25rem;
+  color: $error-color-1;
 }
 </style>
