@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
-import { verifyUser } from "@/services";
+import { verifyUser, resendOtp } from "@/services";
 import { useField } from "vee-validate";
 import { otpSchema } from "@/utilities/schemas";
 
@@ -17,7 +17,28 @@ const {
   setErrors: otpSetErrors,
 } = useField("otp", otpSchema);
 
+const onResendClick = async () => {
+  const { resendingError } = await resendOtp({
+    email: props.registrationData.user.email,
+  });
+
+  if (resendingError) {
+    switch (resendingError.code) {
+      case "over_email_send_rate_limit": {
+        formErrorMessage.value = "over_email_send_rate_limit";
+        return;
+      }
+      default: {
+        formErrorMessage.value = "unexpected_failure";
+        return;
+      }
+    }
+  }
+};
+
 const onFormSubmit = async () => {
+  formErrorMessage.value = "";
+
   const { verificationData, verificationError } = await verifyUser({
     email: props.registrationData.user.email,
     token: otpValue.value,
@@ -61,6 +82,12 @@ const isFormValid = computed(() => {
     </template>
 
     <template #footer>
+      <UiButton
+        type="button"
+        @click="onResendClick"
+      >
+        Resend OTP
+      </UiButton>
       <UiButton
         type="submit"
         :disabled="!isFormValid"
