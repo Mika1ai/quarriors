@@ -33,7 +33,7 @@ const emits = defineEmits(["on-submit"]);
   flex-direction: column;
   align-items: start;
   justify-content: center;
-  gap: 1rem;
+  gap: 2rem;
   background-color: $background-color-1;
   padding: 2rem;
   border: 1px solid $border-color-1;
@@ -42,6 +42,7 @@ const emits = defineEmits(["on-submit"]);
     display: flex;
     flex-direction: column;
     align-items: start;
+    gap: 1rem;
   }
 
   &__content {
@@ -51,6 +52,7 @@ const emits = defineEmits(["on-submit"]);
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    padding-block-end: 2rem;
   }
 
   &__footer {

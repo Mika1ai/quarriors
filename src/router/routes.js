@@ -1,4 +1,8 @@
 export const ROUTES = {
+  HOME: {
+    PATH: "/",
+    NAME: "Home",
+  },
   SIGNUP: {
     PATH: "/sign-up",
     NAME: "SignUp",

@@ -32,6 +32,7 @@ const onRegistrationComplete = (data) => {
   display: flex;
   align-items: start;
   justify-content: center;
+  padding-block-start: 10rem;
 
   &__layout {
     width: 100%;

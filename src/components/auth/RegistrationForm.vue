@@ -31,7 +31,7 @@ const {
   value: passwordValue,
   errorMessage: passwordErrorMessage,
   setErrors: passwordSetErrors,
-} = useField("email", passwordSchema);
+} = useField("password", passwordSchema);
 
 const onFormSubmit = async () => {
   formErrorMessage.value = "";
