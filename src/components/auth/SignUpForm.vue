@@ -8,8 +8,6 @@ import {
   passwordSchema,
 } from "@/utilities/schemas";
 
-const emit = defineEmits(["registration-complete"]);
-
 const {
   meta: nicknameMeta,
   value: nicknameValue,
@@ -32,15 +30,11 @@ const onFormSubmit = async () => {
   const isNicknameAvailable = await checkNickname(nicknameValue.value);
   if (!isNicknameAvailable) return;
 
-  const registrationData = await signUp({
+  await signUp({
     nickname: nicknameValue.value,
     email: emailValue.value,
     password: passwordValue.value,
   });
-
-  if (registrationData) {
-    emit("registration-complete", registrationData);
-  }
 };
 
 const isFormValid = computed(() => {

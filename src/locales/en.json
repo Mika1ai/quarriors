@@ -1,4 +1,8 @@
 {
+  "common": {
+    "loading": "Loading...",
+    "success": "Success"
+  },
   "auth": {
     "nickname": "Nickname",
     "email": "Email",

@@ -8,9 +8,14 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AuthConfirmSignUpForm: typeof import('./src/components/auth/ConfirmSignUpForm.vue')['default']
     AuthLoginForm: typeof import('./src/components/auth/LoginForm.vue')['default']
     AuthRegisterForm: typeof import('./src/components/auth/RegisterForm.vue')['default']
     AuthRegistrationForm: typeof import('./src/components/auth/RegistrationForm.vue')['default']
+    AuthSignInForm: typeof import('./src/components/auth/SignInForm.vue')['default']
+    AuthSignUp: typeof import('./src/components/auth/SignUp.vue')['default']
+    AuthSignupForm: typeof import('./src/components/auth/SignupForm.vue')['default']
+    AuthSignUpForm: typeof import('./src/components/auth/SignUpForm.vue')['default']
     AuthVerificationForm: typeof import('./src/components/auth/VerificationForm.vue')['default']
     copy: typeof import('./src/components/auth/RegistrationForm copy.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

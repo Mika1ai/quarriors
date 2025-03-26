@@ -3,18 +3,26 @@ import { toast } from "vue3-toastify";
 import { i18n } from "@/locales";
 
 export async function resendOtp(credentials) {
+  const notification = toast(i18n.global.t("common.loading"));
+
   try {
-    const { data, error } = await supabase.auth.resend({
+    const { error } = await supabase.auth.resend({
       type: "signup",
       email: credentials.email,
     });
 
-    if (error) throw error;
+    if (error) throw error.code;
 
-    return data;
+    toast.update(notification, {
+      type: toast.TYPE.SUCCESS,
+      render: i18n.global.t("common.success"),
+      autoClose: 1000,
+    });
   } catch (error) {
-    toast(i18n.global.t(`errors.${error.code}`), { type: toast.TYPE.ERROR });
-
-    return null;
+    toast.update(notification, {
+      type: toast.TYPE.ERROR,
+      render: i18n.global.t(`errors.${error}`),
+      autoClose: 1000,
+    });
   }
 }

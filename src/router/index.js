@@ -12,6 +12,12 @@ const router = createRouter({
       meta: { isAuthPage: true },
     },
     {
+      path: ROUTES.CONFIRM_SIGNUP.PATH,
+      name: ROUTES.CONFIRM_SIGNUP.NAME,
+      component: () => import(`@/views/${ROUTES.CONFIRM_SIGNUP.NAME}.vue`),
+      meta: { isAuthPage: true },
+    },
+    {
       path: ROUTES.SIGNIN.PATH,
       name: ROUTES.SIGNIN.NAME,
       component: () => import(`@/views/${ROUTES.SIGNIN.NAME}.vue`),
@@ -30,9 +36,7 @@ router.beforeEach(async (to, from, next) => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const isAuthPage = to.meta.isAuthPage;
-
-  console.log("!!!", user);
+  const { isAuthPage } = to.meta;
 
   if (!user && !isAuthPage) {
     next({ path: ROUTES.SIGNIN.PATH });

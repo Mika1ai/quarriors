@@ -1,12 +1,16 @@
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { verifyEmail, resendOtp } from "@/services";
 import { useField } from "vee-validate";
 import { otpSchema } from "@/utilities/schemas";
+import { useRouter, useRoute } from "vue-router";
+import { ROUTES } from "@/router/routes";
 
-const props = defineProps({
-  registrationData: { required: true },
-});
+const router = useRouter();
+const route = useRoute();
+
+const { email } = route.query;
+if (!email) router.push({ path: ROUTES.SIGNUP.PATH });
 
 const {
   meta: otpMeta,
@@ -15,20 +19,14 @@ const {
 } = useField("otp", otpSchema);
 
 const onResendClick = async () => {
-  const { resendingData } = await resendOtp({
-    email: props.registrationData.user.email,
-  });
-
-  console.log(resendingData);
+  await resendOtp({ email });
 };
 
 const onFormSubmit = async () => {
-  const verificationData = await verifyEmail({
-    email: props.registrationData.user.email,
+  await verifyEmail({
+    email,
     token: otpValue.value,
   });
-
-  console.log(verificationData);
 };
 
 const isFormValid = computed(() => {

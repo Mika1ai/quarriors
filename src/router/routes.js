@@ -11,4 +11,8 @@ export const ROUTES = {
     PATH: "/sign-in",
     NAME: "SignIn",
   },
+  CONFIRM_SIGNUP: {
+    PATH: "/confirm-sign-up",
+    NAME: "ConfirmSignUp",
+  },
 };

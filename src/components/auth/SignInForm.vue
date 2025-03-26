@@ -3,8 +3,6 @@ import { computed } from "vue";
 import { signIn } from "@/services";
 import { useField } from "vee-validate";
 import { emailSchema, passwordSchema } from "@/utilities/schemas";
-import { ROUTES } from "@/router/routes";
-import router from "@/router";
 
 const {
   meta: emailMeta,
@@ -19,12 +17,10 @@ const {
 } = useField("email", passwordSchema);
 
 const onFormSubmit = async () => {
-  const signInData = await signIn({
+  await signIn({
     email: emailValue.value,
     password: passwordValue.value,
   });
-
-  if (signInData) router.push({ path: ROUTES.HOME.PATH });
 };
 
 const isFormValid = computed(() => {

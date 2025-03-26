@@ -3,21 +3,28 @@ import { toast } from "vue3-toastify";
 import { i18n } from "@/locales";
 
 export async function checkNickname(nickname) {
+  const notification = toast(i18n.global.t("common.loading"));
+
   try {
     const { data, error } = await supabase.rpc("check_nickname", {
       nickname_to_check: nickname,
     });
 
-    console.log(data, error);
+    if (error) throw error.code;
+    if (!data) throw "nickname_taken";
 
-    if (error) throw error;
-    if (!data) throw data;
-
-    return data;
+    toast.update(notification, {
+      type: toast.TYPE.SUCCESS,
+      render: i18n.global.t("common.success"),
+      autoClose: 1000,
+    });
+    return true;
   } catch (error) {
-    const errorMessage = error ? error.code : "nickname_taken";
-    toast(i18n.global.t(`errors.${errorMessage}`), { type: toast.TYPE.ERROR });
-
-    return null;
+    toast.update(notification, {
+      type: toast.TYPE.ERROR,
+      render: i18n.global.t(`errors.${error}`),
+      autoClose: 1000,
+    });
+    return false;
   }
 }

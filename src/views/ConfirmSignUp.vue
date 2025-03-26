@@ -1,18 +1,18 @@
 <script setup></script>
 
 <template>
-  <section class="sign-in">
+  <section class="sign-up">
     <div class="container">
-      <div class="sign-in__layout">
-        <AuthSignInForm />
-        <UiButton to="/sign-up">Sign Up</UiButton>
+      <div class="sign-up__layout">
+        <AuthConfirmSignUpForm />
+        <UiButton to="/sign-in">Sign In</UiButton>
       </div>
     </div>
   </section>
 </template>
 
 <style lang="scss" scoped>
-.sign-in {
+.sign-up {
   width: 100%;
   display: flex;
   align-items: start;
