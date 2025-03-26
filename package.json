@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^2.49.1",
     "vue": "^3.5.13",
     "vue-i18n": "10",
+    "vue-inline-svg": "^4.0.0",
     "vue-router": "4",
     "vue3-toastify": "^0.2.8",
     "yup": "^1.6.1"
