@@ -1,6 +1,6 @@
 export { checkNickname } from "./checkNickname";
-export { registerUser } from "./registerUser";
-export { verifyUser } from "./verifyUser";
+export { signUp } from "./signUp";
+export { verifyEmail } from "./verifyEmail";
 export { resendOtp } from "./resendOtp";
-export { loginUser } from "./loginUser";
-export { signOutUser } from "./signOutUser";
+export { signIn } from "./signIn";
+export { signOut } from "./signOut";

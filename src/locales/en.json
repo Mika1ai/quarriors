@@ -4,5 +4,10 @@
     "email": "Email",
     "password": "Password",
     "otp": "OTP"
+  },
+  "errors": {
+    "over_email_send_rate_limit": "Over email send rate limit",
+    "email_address_invalid": "Email address invalid",
+    "nickname_taken": "Nickname is already taken"
   }
 }

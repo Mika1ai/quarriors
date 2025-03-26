@@ -1,17 +1,12 @@
 <script setup>
-import { signOutUser } from "@/services";
+import { signOut } from "@/services";
 import router from "@/router";
 import { ROUTES } from "@/router/routes";
 
 const onSignOutClick = async () => {
-  const { signOutError } = await signOutUser();
+  const data = await signOut();
 
-  if (signOutError) {
-    console.log(signOutError.code);
-    return;
-  }
-
-  router.push({ path: ROUTES.SIGNIN.PATH });
+  if (data) router.push({ path: ROUTES.SIGNIN.PATH });
 };
 </script>
 

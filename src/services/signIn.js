@@ -2,11 +2,11 @@ import { supabase } from "./supabase.js";
 import { toast } from "vue3-toastify";
 import { i18n } from "@/locales";
 
-export async function resendOtp(credentials) {
+export async function signIn(credentials) {
   try {
-    const { data, error } = await supabase.auth.resend({
-      type: "signup",
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: credentials.email,
+      password: credentials.password,
     });
 
     if (error) throw error;

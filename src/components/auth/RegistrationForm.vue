@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed } from "vue";
-import { registerUser, checkNickname } from "@/services";
+import { computed } from "vue";
+import { signUp, checkNickname } from "@/services";
 import { useField } from "vee-validate";
 import {
   nicknameSchema,
@@ -10,66 +10,37 @@ import {
 
 const emit = defineEmits(["registration-complete"]);
 
-const formErrorMessage = ref(null);
-
 const {
   meta: nicknameMeta,
   value: nicknameValue,
   errorMessage: nicknameErrorMessage,
-  setErrors: nicknameSetErrors,
 } = useField("nickname", nicknameSchema);
 
 const {
   meta: emailMeta,
   value: emailValue,
   errorMessage: emailErrorMessage,
-  setErrors: emailSetErrors,
 } = useField("email", emailSchema);
 
 const {
   meta: passwordMeta,
   value: passwordValue,
   errorMessage: passwordErrorMessage,
-  setErrors: passwordSetErrors,
 } = useField("password", passwordSchema);
 
 const onFormSubmit = async () => {
-  formErrorMessage.value = "";
-
   const isNicknameAvailable = await checkNickname(nicknameValue.value);
-  if (!isNicknameAvailable) {
-    nicknameSetErrors("Nickname is already taken");
-    return;
-  }
+  if (!isNicknameAvailable) return;
 
-  const { registrationData, registrationError } = await registerUser({
+  const registrationData = await signUp({
     nickname: nicknameValue.value,
     email: emailValue.value,
     password: passwordValue.value,
   });
 
-  if (registrationError) {
-    switch (registrationError.code) {
-      case "email_address_invalid": {
-        emailSetErrors("email_address_invalid");
-        return;
-      }
-      case "weak_password": {
-        passwordSetErrors("weak_password");
-        return;
-      }
-      case "over_email_send_rate_limit": {
-        formErrorMessage.value = "over_email_send_rate_limit";
-        return;
-      }
-      default: {
-        formErrorMessage.value = "unexpected_failure";
-        return;
-      }
-    }
+  if (registrationData) {
+    emit("registration-complete", registrationData);
   }
-
-  emit("registration-complete", registrationData);
 };
 
 const isFormValid = computed(() => {
@@ -115,10 +86,6 @@ const isFormValid = computed(() => {
       >
         Submit
       </UiButton>
-
-      <div v-if="formErrorMessage">
-        {{ formErrorMessage }}
-      </div>
     </template>
   </UiForm>
 </template>
