@@ -14,7 +14,7 @@ export async function verifyEmail(credentials) {
       type: "email",
     });
 
-    if (error) throw error;
+    if (error) throw error.code;
 
     const { error: userError } = await supabase.from("users").insert([
       {
@@ -23,7 +23,7 @@ export async function verifyEmail(credentials) {
       },
     ]);
 
-    if (userError) throw userError;
+    if (userError) throw userError.code;
 
     toast.update(notification, {
       type: toast.TYPE.SUCCESS,
@@ -35,7 +35,7 @@ export async function verifyEmail(credentials) {
   } catch (error) {
     toast.update(notification, {
       type: toast.TYPE.ERROR,
-      render: i18n.global.t(`errors.${error.code}`),
+      render: i18n.global.t(`errors.${error}`),
       autoClose: 1000,
     });
   }
