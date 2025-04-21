@@ -1,0 +1,9 @@
+@use "@/styles/utilities/mixins" as *;
+
+.heading-lg {
+  @include heading-lg;
+}
+
+.text-md {
+  @include text-md;
+}

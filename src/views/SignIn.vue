@@ -1,30 +1,78 @@
-<script setup></script>
+<script setup>
+import { computed } from "vue";
+import { signIn } from "@/services";
+import { useField } from "vee-validate";
+import { emailSchema, passwordSchema } from "@/utilities/schemas";
+
+const {
+  meta: emailMeta,
+  value: emailValue,
+  errorMessage: emailErrorMessage,
+} = useField("email", emailSchema);
+
+const {
+  meta: passwordMeta,
+  value: passwordValue,
+  errorMessage: passwordErrorMessage,
+} = useField("email", passwordSchema);
+
+const onFormSubmit = async () => {
+  await signIn({
+    email: emailValue.value,
+    password: passwordValue.value,
+  });
+};
+
+const isFormValid = computed(() => {
+  return emailMeta.valid && passwordMeta.valid;
+});
+</script>
 
 <template>
-  <section class="sign-in">
-    <div class="container">
-      <div class="sign-in__layout">
-        <AuthSignInForm />
-        <UiButton to="/sign-up">Sign Up</UiButton>
-      </div>
-    </div>
-  </section>
+  <AuthScaffold>
+    <UiForm @on-submit="onFormSubmit">
+      <template #header>
+        <h2 class="heading-lg">
+          {{ $t("auth.sign_in") }}
+        </h2>
+        <p class="text-md">
+          {{ $t("auth.sign_in_subtext") }}
+        </p>
+      </template>
+
+      <template #default>
+        <UiInput
+          v-model="emailValue"
+          name="email"
+          type="email"
+          :error-message="emailErrorMessage"
+          :placeholder="$t('auth.email')"
+        />
+        <UiInput
+          v-model="passwordValue"
+          name="password"
+          type="password"
+          :error-message="passwordErrorMessage"
+          :placeholder="$t('auth.password')"
+        />
+      </template>
+
+      <template #footer>
+        <UiButton
+          type="submit"
+          :disabled="!isFormValid"
+        >
+          {{ $t("auth.submit") }}
+        </UiButton>
+      </template>
+    </UiForm>
+
+    <template #footer>
+      <UiButton to="/sign-up">
+        {{ $t("auth.sign_up") }}
+      </UiButton>
+    </template>
+  </AuthScaffold>
 </template>
 
-<style lang="scss" scoped>
-.sign-in {
-  width: 100%;
-  display: flex;
-  align-items: start;
-  justify-content: center;
-  padding-block-start: 10rem;
-
-  &__layout {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

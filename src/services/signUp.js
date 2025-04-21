@@ -27,7 +27,7 @@ export async function signUp(credentials) {
     });
 
     router.push({
-      path: ROUTES.CONFIRM_SIGNUP.PATH,
+      path: ROUTES.SIGNUP_CONFIRM.PATH,
       query: { email: credentials.email },
     });
   } catch (error) {

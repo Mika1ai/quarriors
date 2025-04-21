@@ -4,14 +4,20 @@
     "success": "Success"
   },
   "auth": {
+    "sign_in": "Sign In",
+    "sign_in_subtext": "Join battles by signing in",
+    "sign_up": "Sign Up",
+    "sign_up_subtext": "Sign Up to join the fights",
     "nickname": "Nickname",
-    "email": "Email",
     "password": "Password",
+    "submit": "Submit",
+    "email": "Email",
     "otp": "OTP"
   },
   "errors": {
     "over_email_send_rate_limit": "Over email send rate limit",
     "email_address_invalid": "Email address invalid",
+    "invalid_credentials": "Invalid email or password",
     "nickname_taken": "Nickname is already taken"
   }
 }

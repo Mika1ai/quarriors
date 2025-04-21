@@ -11,16 +11,19 @@ const emits = defineEmits(["on-submit"]);
       v-if="$slots.header"
       class="form__header"
     >
-      <slot name="header"></slot>
+      <slot name="header" />
     </header>
-    <div class="form__content">
-      <slot></slot>
+    <div
+      v-if="$slots.default"
+      class="form__content"
+    >
+      <slot />
     </div>
     <footer
       v-if="$slots.footer"
       class="form__footer"
     >
-      <slot name="footer"></slot>
+      <slot name="footer" />
     </footer>
   </form>
 </template>
@@ -28,7 +31,6 @@ const emits = defineEmits(["on-submit"]);
 <style lang="scss" scoped>
 .form {
   width: 100%;
-  max-width: 30rem;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -59,6 +61,7 @@ const emits = defineEmits(["on-submit"]);
     width: 100%;
     display: flex;
     justify-content: end;
+    gap: 1rem;
   }
 }
 </style>

@@ -35,36 +35,47 @@ const isFormValid = computed(() => {
 </script>
 
 <template>
-  <UiForm @on-submit="onFormSubmit">
-    <template #header>
-      <h2>Confirm</h2>
-    </template>
+  <AuthScaffold>
+    <UiForm @on-submit="onFormSubmit">
+      <template #header>
+        <h2>Confirm</h2>
+      </template>
 
-    <template #default>
-      <UiInput
-        v-model="otpValue"
-        name="otp"
-        type="text"
-        :error-message="otpErrorMessage"
-        :placeholder="$t('auth.otp')"
-      />
-    </template>
+      <template #default>
+        <UiInput
+          v-model="otpValue"
+          name="otp"
+          type="text"
+          :error-message="otpErrorMessage"
+          :placeholder="$t('auth.otp')"
+        />
+      </template>
+
+      <template #footer>
+        <UiButton
+          type="button"
+          @click="onResendClick"
+        >
+          Resend OTP
+        </UiButton>
+        <UiButton
+          type="submit"
+          :disabled="!isFormValid"
+        >
+          {{ $t("auth.submit") }}
+        </UiButton>
+      </template>
+    </UiForm>
 
     <template #footer>
-      <UiButton
-        type="button"
-        @click="onResendClick"
-      >
-        Resend OTP
+      <UiButton to="/sign-in">
+        {{ $t("auth.sign_in") }}
       </UiButton>
-      <UiButton
-        type="submit"
-        :disabled="!isFormValid"
-      >
-        Submit
+      <UiButton to="/sign-up">
+        {{ $t("auth.sign_up") }}
       </UiButton>
     </template>
-  </UiForm>
+  </AuthScaffold>
 </template>
 
 <style lang="scss" scoped></style>
