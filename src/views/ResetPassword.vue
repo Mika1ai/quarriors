@@ -1,9 +1,9 @@
 <script setup>
 import { computed } from "vue";
-import { signIn } from "@/services";
+import { resetPassword } from "@/services";
 import { useField } from "vee-validate";
 import { ROUTES } from "@/router";
-import { emailSchema, passwordSchema } from "@/utilities/schemas";
+import { emailSchema } from "@/utilities/schemas";
 
 const {
   meta: emailMeta,
@@ -11,21 +11,12 @@ const {
   errorMessage: emailErrorMessage,
 } = useField("email", emailSchema);
 
-const {
-  meta: passwordMeta,
-  value: passwordValue,
-  errorMessage: passwordErrorMessage,
-} = useField("email", passwordSchema);
-
 const onFormSubmit = async () => {
-  await signIn({
-    email: emailValue.value,
-    password: passwordValue.value,
-  });
+  await resetPassword({ email: emailValue.value });
 };
 
 const isFormValid = computed(() => {
-  return emailMeta.valid && passwordMeta.valid;
+  return emailMeta.valid;
 });
 </script>
 
@@ -34,10 +25,10 @@ const isFormValid = computed(() => {
     <UiForm @on-submit="onFormSubmit">
       <template #header>
         <h2 class="heading-lg">
-          {{ $t("auth.sign_in") }}
+          {{ $t("auth.reset_password") }}
         </h2>
         <p class="text-md">
-          {{ $t("auth.sign_in_subtext") }}
+          {{ $t("auth.reset_password_subtext") }}
         </p>
       </template>
 
@@ -48,13 +39,6 @@ const isFormValid = computed(() => {
           type="email"
           :error-message="emailErrorMessage"
           :placeholder="$t('auth.email')"
-        />
-        <UiInput
-          v-model="passwordValue"
-          name="password"
-          type="password"
-          :error-message="passwordErrorMessage"
-          :placeholder="$t('auth.password')"
         />
       </template>
 
@@ -69,11 +53,8 @@ const isFormValid = computed(() => {
     </UiForm>
 
     <template #footer>
-      <UiButton :to="ROUTES.RESET_PASSWORD.PATH">
-        {{ $t("auth.reset_password") }}
-      </UiButton>
-      <UiButton :to="ROUTES.SIGN_UP.PATH">
-        {{ $t("auth.sign_up") }}
+      <UiButton :to="ROUTES.SIGN_IN.PATH">
+        {{ $t("auth.sign_in") }}
       </UiButton>
     </template>
   </AuthScaffold>

@@ -3,16 +3,24 @@ export const ROUTES = {
     PATH: "/",
     NAME: "Home",
   },
-  SIGNUP: {
+  SIGN_UP: {
     PATH: "/sign-up",
     NAME: "SignUp",
   },
-  SIGNIN: {
+  SIGN_UP_CONFIRM: {
+    PATH: "/sign-up-confirm",
+    NAME: "SignUpConfirm",
+  },
+  SIGN_IN: {
     PATH: "/sign-in",
     NAME: "SignIn",
   },
-  SIGNUP_CONFIRM: {
-    PATH: "/sign-up-confirm",
-    NAME: "SignUpConfirm",
+  RESET_PASSWORD: {
+    PATH: "/reset-password",
+    NAME: "ResetPassword",
+  },
+  UPDATE_PASSWORD: {
+    PATH: "/update-password",
+    NAME: "UpdatePassword",
   },
 };

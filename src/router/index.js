@@ -1,27 +1,39 @@
 import { createWebHistory, createRouter } from "vue-router";
 import { ROUTES } from "./routes";
-import { supabase } from "@/services/supabase";
+import { supabase } from "@/services/supabaseClient";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: ROUTES.SIGNUP.PATH,
-      name: ROUTES.SIGNUP.NAME,
-      component: () => import(`@/views/${ROUTES.SIGNUP.NAME}.vue`),
+      path: ROUTES.SIGN_UP.PATH,
+      name: ROUTES.SIGN_UP.NAME,
+      component: () => import(`@/views/${ROUTES.SIGN_UP.NAME}.vue`),
       meta: { isAuthPage: true, layout: "auth" },
     },
     {
-      path: ROUTES.SIGNUP_CONFIRM.PATH,
-      name: ROUTES.SIGNUP_CONFIRM.NAME,
-      component: () => import(`@/views/${ROUTES.SIGNUP_CONFIRM.NAME}.vue`),
+      path: ROUTES.SIGN_UP_CONFIRM.PATH,
+      name: ROUTES.SIGN_UP_CONFIRM.NAME,
+      component: () => import(`@/views/${ROUTES.SIGN_UP_CONFIRM.NAME}.vue`),
       meta: { isAuthPage: true, layout: "auth" },
     },
     {
-      path: ROUTES.SIGNIN.PATH,
-      name: ROUTES.SIGNIN.NAME,
-      component: () => import(`@/views/${ROUTES.SIGNIN.NAME}.vue`),
+      path: ROUTES.SIGN_IN.PATH,
+      name: ROUTES.SIGN_IN.NAME,
+      component: () => import(`@/views/${ROUTES.SIGN_IN.NAME}.vue`),
       meta: { isAuthPage: true, layout: "auth" },
+    },
+    {
+      path: ROUTES.RESET_PASSWORD.PATH,
+      name: ROUTES.RESET_PASSWORD.NAME,
+      component: () => import(`@/views/${ROUTES.RESET_PASSWORD.NAME}.vue`),
+      meta: { isAuthPage: true, layout: "auth" },
+    },
+    {
+      path: ROUTES.UPDATE_PASSWORD.PATH,
+      name: ROUTES.UPDATE_PASSWORD.NAME,
+      component: () => import(`@/views/${ROUTES.UPDATE_PASSWORD.NAME}.vue`),
+      meta: { isAuthPage: false, layout: "auth" },
     },
     {
       path: ROUTES.HOME.PATH,
@@ -39,7 +51,7 @@ router.beforeEach(async (to, from, next) => {
   const { isAuthPage } = to.meta;
 
   if (!user && !isAuthPage) {
-    next({ path: ROUTES.SIGNIN.PATH });
+    next({ path: ROUTES.SIGN_IN.PATH });
   } else if (user && isAuthPage) {
     next({ path: ROUTES.HOME.PATH });
   } else {
@@ -47,4 +59,4 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
-export default router;
+export { router, ROUTES };

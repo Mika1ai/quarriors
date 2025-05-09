@@ -1,4 +1,4 @@
-import { supabase } from "./supabase.js";
+import { supabase } from "@/services/supabaseClient";
 import { toast } from "vue3-toastify";
 import { i18n } from "@/locales";
 
@@ -16,14 +16,12 @@ export async function checkNickname(nickname) {
     toast.update(notification, {
       type: toast.TYPE.SUCCESS,
       render: i18n.global.t("common.success"),
-      autoClose: 1000,
     });
     return true;
   } catch (error) {
     toast.update(notification, {
       type: toast.TYPE.ERROR,
       render: i18n.global.t(`errors.${error}`),
-      autoClose: 1000,
     });
     return false;
   }

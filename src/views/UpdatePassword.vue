@@ -1,31 +1,39 @@
 <script setup>
-import { computed } from "vue";
-import { signIn } from "@/services";
+import { computed, onMounted } from "vue";
+import { supabase } from "@/services/supabaseClient";
+import { updateUser, signOut } from "@/services";
 import { useField } from "vee-validate";
+import { passwordSchema } from "@/utilities/schemas";
+import { useRouter } from "vue-router";
 import { ROUTES } from "@/router";
-import { emailSchema, passwordSchema } from "@/utilities/schemas";
 
-const {
-  meta: emailMeta,
-  value: emailValue,
-  errorMessage: emailErrorMessage,
-} = useField("email", emailSchema);
+const router = useRouter();
+
+onMounted(async () => {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error || !data.session) {
+    router.push({ path: ROUTES.SIGN_IN.PATH });
+    return;
+  }
+});
 
 const {
   meta: passwordMeta,
   value: passwordValue,
   errorMessage: passwordErrorMessage,
-} = useField("email", passwordSchema);
+} = useField("password", passwordSchema);
 
 const onFormSubmit = async () => {
-  await signIn({
-    email: emailValue.value,
-    password: passwordValue.value,
-  });
+  const isSuccess = await updateUser({ password: passwordValue.value });
+  if (!isSuccess) return;
+
+  await signOut();
+  router.push({ path: ROUTES.SIGN_IN.PATH });
 };
 
 const isFormValid = computed(() => {
-  return emailMeta.valid && passwordMeta.valid;
+  return passwordMeta.valid;
 });
 </script>
 
@@ -34,21 +42,14 @@ const isFormValid = computed(() => {
     <UiForm @on-submit="onFormSubmit">
       <template #header>
         <h2 class="heading-lg">
-          {{ $t("auth.sign_in") }}
+          {{ $t("auth.update_password") }}
         </h2>
         <p class="text-md">
-          {{ $t("auth.sign_in_subtext") }}
+          {{ $t("auth.update_password_subtext") }}
         </p>
       </template>
 
       <template #default>
-        <UiInput
-          v-model="emailValue"
-          name="email"
-          type="email"
-          :error-message="emailErrorMessage"
-          :placeholder="$t('auth.email')"
-        />
         <UiInput
           v-model="passwordValue"
           name="password"
@@ -67,15 +68,6 @@ const isFormValid = computed(() => {
         </UiButton>
       </template>
     </UiForm>
-
-    <template #footer>
-      <UiButton :to="ROUTES.RESET_PASSWORD.PATH">
-        {{ $t("auth.reset_password") }}
-      </UiButton>
-      <UiButton :to="ROUTES.SIGN_UP.PATH">
-        {{ $t("auth.sign_up") }}
-      </UiButton>
-    </template>
   </AuthScaffold>
 </template>
 

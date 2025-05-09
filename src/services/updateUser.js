@@ -2,14 +2,11 @@ import { supabase } from "@/services/supabaseClient";
 import { toast } from "vue3-toastify";
 import { i18n } from "@/locales";
 
-export async function resendOtp(credentials) {
+export async function updateUser(credentials) {
   const notification = toast(i18n.global.t("common.loading"));
 
   try {
-    const { error } = await supabase.auth.resend({
-      type: "signup",
-      email: credentials.email,
-    });
+    const { error } = await supabase.auth.updateUser(credentials);
 
     if (error) throw error.code;
 
@@ -17,10 +14,14 @@ export async function resendOtp(credentials) {
       type: toast.TYPE.SUCCESS,
       render: i18n.global.t("common.success"),
     });
+
+    return true;
   } catch (error) {
     toast.update(notification, {
       type: toast.TYPE.ERROR,
       render: i18n.global.t(`errors.${error}`),
     });
+
+    return false;
   }
 }

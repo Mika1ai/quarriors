@@ -1,16 +1,20 @@
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { verifyEmail, resendOtp } from "@/services";
 import { useField } from "vee-validate";
 import { otpSchema } from "@/utilities/schemas";
 import { useRouter, useRoute } from "vue-router";
-import { ROUTES } from "@/router/routes";
+import { ROUTES } from "@/router";
 
-const router = useRouter();
-const route = useRoute();
+let email = null;
 
-const { email } = route.query;
-if (!email) router.push({ path: ROUTES.SIGNUP.PATH });
+onMounted(() => {
+  const router = useRouter();
+  const route = useRoute();
+
+  email = route.query.email;
+  if (!email) router.push({ path: ROUTES.SIGN_UP.PATH });
+});
 
 const {
   meta: otpMeta,
@@ -68,10 +72,10 @@ const isFormValid = computed(() => {
     </UiForm>
 
     <template #footer>
-      <UiButton to="/sign-in">
+      <UiButton :to="ROUTES.SIGN_IN.PATH">
         {{ $t("auth.sign_in") }}
       </UiButton>
-      <UiButton to="/sign-up">
+      <UiButton :to="ROUTES.SIGN_UP.PATH">
         {{ $t("auth.sign_up") }}
       </UiButton>
     </template>

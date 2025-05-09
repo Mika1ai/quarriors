@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { signUp, checkNickname } from "@/services";
 import { useField } from "vee-validate";
+import { ROUTES } from "@/router";
 import {
   nicknameSchema,
   emailSchema,
@@ -89,7 +90,7 @@ const isFormValid = computed(() => {
     </UiForm>
 
     <template #footer>
-      <UiButton to="/sign-in">
+      <UiButton :to="ROUTES.SIGN_IN.PATH">
         {{ $t("auth.sign_in") }}
       </UiButton>
     </template>
