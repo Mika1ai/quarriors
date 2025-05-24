@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import { ROUTES } from "./routes";
 import { supabase } from "@/services/supabaseClient";
+import { useUserStore } from "../stores";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -45,18 +46,24 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  const { isAuthPage } = to.meta;
+  const { data } = await supabase.auth.getUser();
 
-  if (!user && !isAuthPage) {
-    next({ path: ROUTES.SIGN_IN.PATH });
-  } else if (user && isAuthPage) {
-    next({ path: ROUTES.HOME.PATH });
-  } else {
-    next();
+  const user = data?.user;
+  const userStore = useUserStore();
+  const isAuthPage = to.meta.isAuthPage;
+
+  if (!user) {
+    userStore.clearUser();
+    return isAuthPage ? next() : next({ path: ROUTES.SIGN_IN.PATH });
   }
+
+  userStore.setUser({
+    id: user.id,
+    email: user.email,
+    nickname: user.user_metadata.nickname,
+  });
+
+  return isAuthPage ? next({ path: ROUTES.HOME.PATH }) : next();
 });
 
 export { router, ROUTES };
