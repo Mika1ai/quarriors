@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { signUp, checkNickname } from "@/services";
+import { signUp, isNicknameAvailable } from "@/services";
 import { useField } from "vee-validate";
 import { ROUTES } from "@/router";
 import {
@@ -28,8 +28,7 @@ const {
 } = useField("password", passwordSchema);
 
 const onFormSubmit = async () => {
-  const isNicknameAvailable = await checkNickname(nicknameValue.value);
-  if (!isNicknameAvailable) return;
+  if (!(await isNicknameAvailable(nicknameValue.value))) return;
 
   await signUp({
     nickname: nicknameValue.value,

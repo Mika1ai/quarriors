@@ -7,22 +7,13 @@ export async function verifyEmail(credentials) {
   const notification = toast(i18n.global.t("common.loading"));
 
   try {
-    const { data, error } = await supabase.auth.verifyOtp({
+    const { error } = await supabase.auth.verifyOtp({
       email: credentials.email,
       token: credentials.token,
       type: "email",
     });
 
     if (error) throw error.code;
-
-    const { error: userError } = await supabase.from("users").insert([
-      {
-        id: data.user.id,
-        nickname: data.user.user_metadata.nickname,
-      },
-    ]);
-
-    if (userError) throw userError.code;
 
     toast.update(notification, {
       type: toast.TYPE.SUCCESS,
