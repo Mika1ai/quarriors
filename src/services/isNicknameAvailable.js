@@ -11,9 +11,9 @@ export async function isNicknameAvailable(nickname) {
     });
 
     if (error) throw error.code;
-    if (!data.is_available) throw data.code;
+    if (!data.success) throw data.code;
 
-    return data.is_available;
+    return data.success;
   } catch (error) {
     toast.update(notification, {
       type: toast.TYPE.ERROR,
