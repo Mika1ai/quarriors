@@ -1,9 +1,9 @@
 <script setup>
 import { computed } from "vue";
-import { signIn } from "@/services";
+import { api } from "@/services";
 import { useField } from "vee-validate";
 import { ROUTES } from "@/router";
-import { emailSchema, passwordSchema } from "@/utilities/schemas";
+import { emailSchema, passwordSchema } from "@/utils/schemas";
 
 const {
   meta: emailMeta,
@@ -18,7 +18,7 @@ const {
 } = useField("email", passwordSchema);
 
 const onFormSubmit = async () => {
-  await signIn({
+  await api.auth.signIn({
     email: emailValue.value,
     password: passwordValue.value,
   });

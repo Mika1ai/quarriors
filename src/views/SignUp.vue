@@ -1,13 +1,9 @@
 <script setup>
 import { computed } from "vue";
-import { signUp, isNicknameAvailable } from "@/services";
+import { api } from "@/services";
 import { useField } from "vee-validate";
 import { ROUTES } from "@/router";
-import {
-  nicknameSchema,
-  emailSchema,
-  passwordSchema,
-} from "@/utilities/schemas";
+import { nicknameSchema, emailSchema, passwordSchema } from "@/utils/schemas";
 
 const {
   meta: nicknameMeta,
@@ -28,9 +24,9 @@ const {
 } = useField("password", passwordSchema);
 
 const onFormSubmit = async () => {
-  if (!(await isNicknameAvailable(nicknameValue.value))) return;
+  if (!(await api.utils.isNicknameAvailable(nicknameValue.value))) return;
 
-  await signUp({
+  await api.auth.signUp({
     nickname: nicknameValue.value,
     email: emailValue.value,
     password: passwordValue.value,

@@ -1,19 +1,19 @@
 <script setup>
-import { computed, onMounted } from "vue";
-import { verifyEmail, resendOtp } from "@/services";
+import { ref, computed, onMounted } from "vue";
+import { api } from "@/services";
 import { useField } from "vee-validate";
-import { otpSchema } from "@/utilities/schemas";
+import { otpSchema } from "@/utils/schemas";
 import { useRouter, useRoute } from "vue-router";
 import { ROUTES } from "@/router";
 
-let email = null;
+const emailValue = ref("");
 
 onMounted(() => {
   const router = useRouter();
   const route = useRoute();
 
-  email = route.query.email;
-  if (!email) router.push({ path: ROUTES.SIGN_UP.PATH });
+  emailValue.value = route.query.email;
+  if (!emailValue.value) router.push({ path: ROUTES.SIGN_UP.PATH });
 });
 
 const {
@@ -23,12 +23,12 @@ const {
 } = useField("otp", otpSchema);
 
 const onResendClick = async () => {
-  await resendOtp({ email });
+  await api.auth.resendOtp({ email: emailValue.value });
 };
 
 const onFormSubmit = async () => {
-  await verifyEmail({
-    email,
+  await api.auth.verifyEmail({
+    email: emailValue.value,
     token: otpValue.value,
   });
 };

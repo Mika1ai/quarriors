@@ -1,22 +1,8 @@
 <script setup>
-import { computed, onMounted } from "vue";
-import { supabase } from "@/services/supabaseClient";
-import { updateUser, signOut } from "@/services";
+import { computed } from "vue";
+import { api } from "@/services";
 import { useField } from "vee-validate";
-import { passwordSchema } from "@/utilities/schemas";
-import { useRouter } from "vue-router";
-import { ROUTES } from "@/router";
-
-const router = useRouter();
-
-onMounted(async () => {
-  const { data, error } = await supabase.auth.getSession();
-
-  if (error || !data.session) {
-    router.push({ path: ROUTES.SIGN_IN.PATH });
-    return;
-  }
-});
+import { passwordSchema } from "@/utils/schemas";
 
 const {
   meta: passwordMeta,
@@ -25,11 +11,12 @@ const {
 } = useField("password", passwordSchema);
 
 const onFormSubmit = async () => {
-  const isSuccess = await updateUser({ password: passwordValue.value });
-  if (!isSuccess) return;
+  const isPasswordUpdated = await api.user.updateUser({
+    password: passwordValue.value,
+  });
+  if (!isPasswordUpdated) return;
 
-  await signOut();
-  router.push({ path: ROUTES.SIGN_IN.PATH });
+  await api.auth.signOut();
 };
 
 const isFormValid = computed(() => {

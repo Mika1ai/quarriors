@@ -1,8 +1,8 @@
 <script setup>
-import { signOut } from "@/services";
+import { api } from "@/services";
 
 const onSignOutClick = async () => {
-  await signOut();
+  await api.auth.signOut();
 };
 </script>
 

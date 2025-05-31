@@ -1,9 +1,9 @@
 <script setup>
 import { computed } from "vue";
-import { resetPassword } from "@/services";
+import { api } from "@/services";
 import { useField } from "vee-validate";
 import { ROUTES } from "@/router";
-import { emailSchema } from "@/utilities/schemas";
+import { emailSchema } from "@/utils/schemas";
 
 const {
   meta: emailMeta,
@@ -12,7 +12,7 @@ const {
 } = useField("email", emailSchema);
 
 const onFormSubmit = async () => {
-  await resetPassword({ email: emailValue.value });
+  await api.auth.resetPassword({ email: emailValue.value });
 };
 
 const isFormValid = computed(() => {

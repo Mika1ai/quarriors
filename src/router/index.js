@@ -1,7 +1,7 @@
+import { watch } from "vue";
 import { createWebHistory, createRouter } from "vue-router";
 import { ROUTES } from "./routes";
-import { supabase } from "@/services/supabaseClient";
-import { useUserStore } from "../stores";
+import { useUserStore } from "@/stores";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -46,24 +46,47 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const { data } = await supabase.auth.getUser();
-
-  const user = data?.user;
   const userStore = useUserStore();
-  const isAuthPage = to.meta.isAuthPage;
 
-  if (!user) {
-    userStore.clearUser();
-    return isAuthPage ? next() : next({ path: ROUTES.SIGN_IN.PATH });
+  if (userStore.isLoading) {
+    await new Promise((resolve) => {
+      const stop = watch(
+        () => userStore.isLoading,
+        (loading) => {
+          if (!loading) {
+            stop();
+            resolve();
+          }
+        },
+        { immediate: true },
+      );
+    });
   }
 
-  userStore.setUser({
-    id: user.id,
-    email: user.email,
-    nickname: user.user_metadata.nickname,
-  });
+  const isAuthPage = to.meta.isAuthPage;
+  const { isAuthenticated } = userStore;
 
-  return isAuthPage ? next({ path: ROUTES.HOME.PATH }) : next();
+  if (isAuthenticated && isAuthPage) {
+    next({ path: ROUTES.HOME.PATH });
+  } else if (!isAuthenticated && !isAuthPage) {
+    next({ path: ROUTES.SIGN_IN.PATH });
+  } else {
+    next();
+  }
+
+  watch(
+    () => userStore.isAuthenticated,
+    () => {
+      const isAuthPage = to.meta.isAuthPage;
+      const { isAuthenticated } = userStore;
+
+      if (isAuthenticated && isAuthPage) {
+        router.push({ path: ROUTES.HOME.PATH });
+      } else if (!isAuthenticated && !isAuthPage) {
+        router.push({ path: ROUTES.SIGN_IN.PATH });
+      }
+    },
+  );
 });
 
 export { router, ROUTES };

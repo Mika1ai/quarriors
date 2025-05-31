@@ -1,10 +1,31 @@
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useUserStore } from "@/stores";
+import { supabase } from "@/services/supabaseClient";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 
+const userStore = useUserStore();
 const route = useRoute();
+
+onMounted(async () => {
+  userStore.setUserLoading(true);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    userStore.setUser({
+      id: user.id,
+      email: user.email,
+      nickname: user.user_metadata.nickname,
+      isAuthenticated: user.role === "authenticated",
+    });
+  } else {
+    userStore.clearUser();
+  }
+});
 
 const layouts = {
   default: DefaultLayout,
