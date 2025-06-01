@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { api } from "@/services";
 import { useField } from "vee-validate";
 import { ROUTES } from "@/router";
-import { emailSchema } from "@/utils/schemas";
+import { emailSchema } from "@/utils";
 
 const {
   meta: emailMeta,

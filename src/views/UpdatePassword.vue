@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { api } from "@/services";
 import { useField } from "vee-validate";
-import { passwordSchema } from "@/utils/schemas";
+import { passwordSchema } from "@/utils";
 
 const {
   meta: passwordMeta,

@@ -1,15 +1,14 @@
 import { supabase } from "@/services/supabaseClient";
-import { toast } from "vue3-toastify";
-import { i18n } from "@/locales";
 import { DOMAIN } from "@/config";
 import { useUserStore } from "@/stores";
 import { router, ROUTES } from "@/router";
+import { createLoadingToast, updateLoadingToast } from "@/utils";
 
 const userStore = useUserStore();
 
 export const auth = {
   signUp: async (credentials) => {
-    const notification = toast(i18n.global.t("common.loading"));
+    const notification = createLoadingToast();
 
     try {
       const { error } = await supabase.auth.signUp({
@@ -24,9 +23,10 @@ export const auth = {
 
       if (error) throw error.code;
 
-      toast.update(notification, {
-        type: toast.TYPE.SUCCESS,
-        render: i18n.global.t("common.success"),
+      updateLoadingToast({
+        target: notification,
+        message: "common.success",
+        success: true,
       });
 
       router.push({
@@ -34,14 +34,15 @@ export const auth = {
         query: { email: credentials.email },
       });
     } catch (error) {
-      toast.update(notification, {
-        type: toast.TYPE.ERROR,
-        render: i18n.global.t(`errors.${error}`),
+      updateLoadingToast({
+        target: notification,
+        message: `errors.${error}`,
+        success: false,
       });
     }
   },
   resendOtp: async (credentials) => {
-    const notification = toast(i18n.global.t("common.loading"));
+    const notification = createLoadingToast();
 
     try {
       const { error } = await supabase.auth.resend({
@@ -51,19 +52,21 @@ export const auth = {
 
       if (error) throw error.code;
 
-      toast.update(notification, {
-        type: toast.TYPE.SUCCESS,
-        render: i18n.global.t("common.success"),
+      updateLoadingToast({
+        target: notification,
+        message: "common.success",
+        success: true,
       });
     } catch (error) {
-      toast.update(notification, {
-        type: toast.TYPE.ERROR,
-        render: i18n.global.t(`errors.${error}`),
+      updateLoadingToast({
+        target: notification,
+        message: `errors.${error}`,
+        success: false,
       });
     }
   },
   verifyEmail: async (credentials) => {
-    const notification = toast(i18n.global.t("common.loading"));
+    const notification = createLoadingToast();
 
     try {
       const {
@@ -77,9 +80,10 @@ export const auth = {
 
       if (error) throw error.code;
 
-      toast.update(notification, {
-        type: toast.TYPE.SUCCESS,
-        render: i18n.global.t("common.success"),
+      updateLoadingToast({
+        target: notification,
+        message: "common.success",
+        success: true,
       });
 
       userStore.setUser({
@@ -89,14 +93,15 @@ export const auth = {
         isAuthenticated: user.role === "authenticated",
       });
     } catch (error) {
-      toast.update(notification, {
-        type: toast.TYPE.ERROR,
-        render: i18n.global.t(`errors.${error}`),
+      updateLoadingToast({
+        target: notification,
+        message: `errors.${error}`,
+        success: false,
       });
     }
   },
   resetPassword: async (credentials) => {
-    const notification = toast(i18n.global.t("common.loading"));
+    const notification = createLoadingToast();
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(
@@ -106,19 +111,21 @@ export const auth = {
 
       if (error) throw error.code;
 
-      toast.update(notification, {
-        type: toast.TYPE.SUCCESS,
-        render: i18n.global.t("common.success"),
+      updateLoadingToast({
+        target: notification,
+        message: "common.success",
+        success: true,
       });
     } catch (error) {
-      toast.update(notification, {
-        type: toast.TYPE.ERROR,
-        render: i18n.global.t(`errors.${error}`),
+      updateLoadingToast({
+        target: notification,
+        message: `errors.${error}`,
+        success: false,
       });
     }
   },
   signIn: async (credentials) => {
-    const notification = toast(i18n.global.t("common.loading"));
+    const notification = createLoadingToast();
 
     try {
       const {
@@ -131,9 +138,10 @@ export const auth = {
 
       if (error) throw error.code;
 
-      toast.update(notification, {
-        type: toast.TYPE.SUCCESS,
-        render: i18n.global.t("common.success"),
+      updateLoadingToast({
+        target: notification,
+        message: "common.success",
+        success: true,
       });
 
       userStore.setUser({
@@ -143,30 +151,33 @@ export const auth = {
         isAuthenticated: user.role === "authenticated",
       });
     } catch (error) {
-      toast.update(notification, {
-        type: toast.TYPE.ERROR,
-        render: i18n.global.t(`errors.${error}`),
+      updateLoadingToast({
+        target: notification,
+        message: `errors.${error}`,
+        success: false,
       });
     }
   },
   signOut: async () => {
-    const notification = toast(i18n.global.t("common.loading"));
+    const notification = createLoadingToast();
 
     try {
       const { error } = await supabase.auth.signOut();
 
       if (error) throw error.code;
 
-      toast.update(notification, {
-        type: toast.TYPE.SUCCESS,
-        render: i18n.global.t("common.success"),
+      updateLoadingToast({
+        target: notification,
+        message: "common.success",
+        success: true,
       });
 
       userStore.clearUser();
     } catch (error) {
-      toast.update(notification, {
-        type: toast.TYPE.ERROR,
-        render: i18n.global.t(`errors.${error}`),
+      updateLoadingToast({
+        target: notification,
+        message: `errors.${error}`,
+        success: false,
       });
     }
   },

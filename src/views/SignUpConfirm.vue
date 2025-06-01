@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from "vue";
 import { api } from "@/services";
 import { useField } from "vee-validate";
-import { otpSchema } from "@/utils/schemas";
+import { otpSchema } from "@/utils";
 import { useRouter, useRoute } from "vue-router";
 import { ROUTES } from "@/router";
 

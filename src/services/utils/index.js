@@ -1,10 +1,9 @@
 import { supabase } from "@/services/supabaseClient";
-import { toast } from "vue3-toastify";
-import { i18n } from "@/locales";
+import { createLoadingToast, updateLoadingToast } from "@/utils";
 
 export const utils = {
   isNicknameAvailable: async (nickname) => {
-    const notification = toast(i18n.global.t("common.loading"));
+    const notification = createLoadingToast();
 
     try {
       const { data, error } = await supabase.rpc("is_nickname_available", {
@@ -14,11 +13,18 @@ export const utils = {
       if (error) throw error.code;
       if (!data.success) throw data.code;
 
+      updateLoadingToast({
+        target: notification,
+        message: "common.success",
+        success: true,
+      });
+
       return data.success;
     } catch (error) {
-      toast.update(notification, {
-        type: toast.TYPE.ERROR,
-        render: i18n.global.t(`errors.${error}`),
+      updateLoadingToast({
+        target: notification,
+        message: `errors.${error}`,
+        success: false,
       });
 
       return false;
