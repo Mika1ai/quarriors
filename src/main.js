@@ -16,7 +16,6 @@ app.use(pinia);
 app.use(router);
 app.use(i18n);
 app.use(Vue3Toastify, {
-  autoClose: 1000,
   position: toast.POSITION.BOTTOM_CENTER,
 });
 

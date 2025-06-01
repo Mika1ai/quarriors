@@ -2,11 +2,14 @@ import { supabase } from "@/services/supabaseClient";
 import { createLoadingToast, updateLoadingToast } from "@/utils";
 
 export const user = {
-  updateUser: async (credentials) => {
+  updateUser: async ({ credentials, userStore }) => {
     const notification = createLoadingToast();
 
     try {
-      const { error } = await supabase.auth.updateUser(credentials);
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.updateUser(credentials);
 
       if (error) throw error.code;
 
@@ -14,6 +17,13 @@ export const user = {
         target: notification,
         message: "common.success",
         success: true,
+      });
+
+      userStore.setUser({
+        id: user.id,
+        email: user.email,
+        nickname: user.user_metadata.nickname,
+        isAuthenticated: user.role === "authenticated",
       });
 
       return true;

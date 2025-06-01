@@ -36,6 +36,9 @@ const buttonTag = computed(() => {
 
 <style lang="scss" scoped>
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.75rem 1.25rem;
   background-color: $background-color-2;
   color: $text-color-1;

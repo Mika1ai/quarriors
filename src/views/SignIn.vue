@@ -4,6 +4,10 @@ import { api } from "@/services";
 import { useField } from "vee-validate";
 import { ROUTES } from "@/router";
 import { emailSchema, passwordSchema } from "@/utils";
+import { useUserStore, useRelationshipsStore } from "@/stores";
+
+const userStore = useUserStore();
+const relationshipsStore = useRelationshipsStore();
 
 const {
   meta: emailMeta,
@@ -19,8 +23,12 @@ const {
 
 const onFormSubmit = async () => {
   await api.auth.signIn({
-    email: emailValue.value,
-    password: passwordValue.value,
+    credentials: {
+      email: emailValue.value,
+      password: passwordValue.value,
+    },
+    userStore,
+    relationshipsStore,
   });
 };
 

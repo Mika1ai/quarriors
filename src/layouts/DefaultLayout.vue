@@ -3,6 +3,7 @@
 <template>
   <div>
     <slot />
+    <Relationships />
   </div>
 </template>
 

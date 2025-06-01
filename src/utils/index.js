@@ -5,4 +5,8 @@ export {
   otpSchema,
 } from "./schemas";
 
-export { createLoadingToast, updateLoadingToast } from "./toasts";
+export {
+  createLoadingToast,
+  updateLoadingToast,
+  createErrorToast,
+} from "./toasts";

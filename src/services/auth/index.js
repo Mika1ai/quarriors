@@ -1,10 +1,8 @@
 import { supabase } from "@/services/supabaseClient";
 import { DOMAIN } from "@/config";
-import { useUserStore } from "@/stores";
 import { router, ROUTES } from "@/router";
+import { api } from "@/services";
 import { createLoadingToast, updateLoadingToast } from "@/utils";
-
-const userStore = useUserStore();
 
 export const auth = {
   signUp: async (credentials) => {
@@ -65,7 +63,7 @@ export const auth = {
       });
     }
   },
-  verifyEmail: async (credentials) => {
+  verifyEmail: async ({ credentials, userStore, relationshipsStore }) => {
     const notification = createLoadingToast();
 
     try {
@@ -91,6 +89,12 @@ export const auth = {
         email: user.email,
         nickname: user.user_metadata.nickname,
         isAuthenticated: user.role === "authenticated",
+      });
+      api.relationships.getRelationships({ relationshipsStore });
+      api.relationships.subscribeToChanges({
+        userStore,
+        relationshipsStore,
+        channelCallback: api.relationships.getRelationships,
       });
     } catch (error) {
       updateLoadingToast({
@@ -124,7 +128,7 @@ export const auth = {
       });
     }
   },
-  signIn: async (credentials) => {
+  signIn: async ({ credentials, userStore, relationshipsStore }) => {
     const notification = createLoadingToast();
 
     try {
@@ -150,6 +154,12 @@ export const auth = {
         nickname: user.user_metadata.nickname,
         isAuthenticated: user.role === "authenticated",
       });
+      api.relationships.getRelationships({ relationshipsStore });
+      api.relationships.subscribeToChanges({
+        userStore,
+        relationshipsStore,
+        channelCallback: api.relationships.getRelationships,
+      });
     } catch (error) {
       updateLoadingToast({
         target: notification,
@@ -158,7 +168,7 @@ export const auth = {
       });
     }
   },
-  signOut: async () => {
+  signOut: async ({ userStore, relationshipsStore }) => {
     const notification = createLoadingToast();
 
     try {
@@ -172,6 +182,9 @@ export const auth = {
         success: true,
       });
 
+      api.relationships.unsubscribeFromChanges({ relationshipsStore });
+
+      relationshipsStore.clearRelationships();
       userStore.clearUser();
     } catch (error) {
       updateLoadingToast({

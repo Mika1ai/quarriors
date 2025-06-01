@@ -4,7 +4,11 @@ import { api } from "@/services";
 import { useField } from "vee-validate";
 import { otpSchema } from "@/utils";
 import { useRouter, useRoute } from "vue-router";
+import { useUserStore, useRelationshipsStore } from "@/stores";
 import { ROUTES } from "@/router";
+
+const userStore = useUserStore();
+const relationshipsStore = useRelationshipsStore();
 
 const emailValue = ref("");
 
@@ -28,8 +32,12 @@ const onResendClick = async () => {
 
 const onFormSubmit = async () => {
   await api.auth.verifyEmail({
-    email: emailValue.value,
-    token: otpValue.value,
+    credentials: {
+      email: emailValue.value,
+      token: otpValue.value,
+    },
+    userStore,
+    relationshipsStore,
   });
 };
 

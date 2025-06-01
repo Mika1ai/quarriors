@@ -3,6 +3,10 @@ import { computed } from "vue";
 import { api } from "@/services";
 import { useField } from "vee-validate";
 import { passwordSchema } from "@/utils";
+import { useUserStore, useRelationshipsStore } from "@/stores";
+
+const userStore = useUserStore();
+const relationshipsStore = useRelationshipsStore();
 
 const {
   meta: passwordMeta,
@@ -12,11 +16,14 @@ const {
 
 const onFormSubmit = async () => {
   const isPasswordUpdated = await api.user.updateUser({
-    password: passwordValue.value,
+    credentials: {
+      password: passwordValue.value,
+    },
+    userStore,
   });
   if (!isPasswordUpdated) return;
 
-  await api.auth.signOut();
+  await api.auth.signOut({ userStore, relationshipsStore });
 };
 
 const isFormValid = computed(() => {

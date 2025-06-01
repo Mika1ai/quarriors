@@ -1,12 +1,14 @@
 <script setup>
 import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { useUserStore } from "@/stores";
+import { useUserStore, useRelationshipsStore } from "@/stores";
+import { api } from "@/services";
 import { supabase } from "@/services/supabaseClient";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 
 const userStore = useUserStore();
+const relationshipsStore = useRelationshipsStore();
 const route = useRoute();
 
 onMounted(async () => {
@@ -22,8 +24,16 @@ onMounted(async () => {
       nickname: user.user_metadata.nickname,
       isAuthenticated: user.role === "authenticated",
     });
+    api.relationships.getRelationships({ relationshipsStore });
+    api.relationships.subscribeToChanges({
+      userStore,
+      relationshipsStore,
+      channelCallback: api.relationships.getRelationships,
+    });
   } else {
     userStore.clearUser();
+    relationshipsStore.clearRelationships();
+    api.relationships.unsubscribeFromChanges({ relationshipsStore });
   }
 });
 
