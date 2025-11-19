@@ -1,10 +1,10 @@
 import { watch } from "vue";
-import { createWebHistory, createRouter } from "vue-router";
+import { createWebHashHistory, createRouter } from "vue-router";
 import { ROUTES } from "./routes";
 import { useUserStore } from "@/stores";
 
 const router = createRouter({
-  history: createWebHistory("/quarriors/"),
+  history: createWebHashHistory("/quarriors/"),
   routes: [
     {
       path: ROUTES.SIGN_UP.PATH,
