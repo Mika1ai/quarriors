@@ -1,0 +1,1 @@
+import{u as a,a as r,c as i,b as u,w as c,_,o as l,d as p,e as m}from"./index-CaO3KLLv.js";const g={__name:"Home",setup(d){const e=a(),o=r(),s=async()=>{await m.auth.signOut({userStore:e,relationshipsStore:o})};return(S,t)=>{const n=_;return l(),i("div",null,[u(n,{onClick:s},{default:c(()=>[...t[0]||(t[0]=[p("Sign Out",-1)])]),_:1})])}}};export{g as default};
