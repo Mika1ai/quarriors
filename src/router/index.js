@@ -4,7 +4,7 @@ import { ROUTES } from "./routes";
 import { useUserStore } from "@/stores";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("/quarriors/"),
   routes: [
     {
       path: ROUTES.SIGN_UP.PATH,
