@@ -12,8 +12,6 @@ export const relationships = {
 
       if (error) throw error.code;
 
-      console.log(data);
-
       relationshipsStore.setRelationships(data);
     } catch (error) {
       createErrorToast({
@@ -76,12 +74,12 @@ export const relationships = {
       });
     }
   },
-  sendFriendRequest: async (targetNickname) => {
+  sendFriendRequest: async (otherUserNickname) => {
     const notification = createLoadingToast();
 
     try {
       const { data, error } = await supabase.rpc("send_friend_request", {
-        target_nickname: targetNickname,
+        other_user_nickname: otherUserNickname,
       });
 
       if (error) throw error.code;
@@ -100,12 +98,12 @@ export const relationships = {
       });
     }
   },
-  cancelFriendRequest: async (targetId) => {
+  cancelFriendRequest: async (otherUserId) => {
     const notification = createLoadingToast();
 
     try {
       const { data, error } = await supabase.rpc("cancel_friend_request", {
-        target_id: targetId,
+        other_user_id: otherUserId,
       });
 
       if (error) throw error.code;
@@ -124,12 +122,12 @@ export const relationships = {
       });
     }
   },
-  rejectFriendRequest: async (sourceId) => {
+  rejectFriendRequest: async (otherUserId) => {
     const notification = createLoadingToast();
 
     try {
       const { data, error } = await supabase.rpc("reject_friend_request", {
-        source_id: sourceId,
+        other_user_id: otherUserId,
       });
 
       if (error) throw error.code;
@@ -148,12 +146,12 @@ export const relationships = {
       });
     }
   },
-  acceptFriendRequest: async (sourceId) => {
+  acceptFriendRequest: async (otherUserId) => {
     const notification = createLoadingToast();
 
     try {
       const { data, error } = await supabase.rpc("accept_friend_request", {
-        source_id: sourceId,
+        other_user_id: otherUserId,
       });
 
       if (error) throw error.code;
@@ -172,12 +170,12 @@ export const relationships = {
       });
     }
   },
-  deleteFriendRequest: async (friendId) => {
+  deleteFriendRequest: async (otherUserId) => {
     const notification = createLoadingToast();
 
     try {
       const { data, error } = await supabase.rpc("delete_friend_request", {
-        friend_id: friendId,
+        other_user_id: otherUserId,
       });
 
       if (error) throw error.code;

@@ -3,13 +3,25 @@ import { ref } from "vue";
 
 const model = defineModel();
 
-const props = defineProps({
-  type: { default: "text" },
-  errorMessage: { default: "" },
-  placeholder: { default: "" },
+const { type, errorMessage, placeholder } = defineProps({
+  type: {
+    type: String,
+    required: false,
+    default: "text",
+  },
+  errorMessage: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  placeholder: {
+    type: String,
+    required: false,
+    default: "",
+  },
 });
 
-const reactiveType = ref(props.type);
+const reactiveType = ref(type);
 </script>
 
 <template>
@@ -30,9 +42,9 @@ const reactiveType = ref(props.type);
       v-if="type === 'password'"
       class="show-button"
       @mousedown="reactiveType = 'text'"
-      @mouseup="reactiveType = 'password'"
+      @mouseup="reactiveType = type"
     >
-      <InlineSvg src="icons/eye.svg" />
+      <InlineSvg src="icons/visibility.svg" />
     </div>
   </label>
 </template>
@@ -46,6 +58,7 @@ const reactiveType = ref(props.type);
 }
 .input {
   width: 100%;
+  min-height: 3rem;
   padding: 0.75rem 1.25rem;
   color: $text-color-1;
   background-color: $background-color-1;

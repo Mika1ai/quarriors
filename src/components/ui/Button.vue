@@ -1,10 +1,16 @@
 <script setup>
 import { computed } from "vue";
 
-const props = defineProps({
+const { type, size, disabled, to } = defineProps({
   type: {
     type: String,
     required: false,
+    default: "button",
+  },
+  size: {
+    type: String,
+    required: false,
+    default: "",
   },
   disabled: {
     type: Boolean,
@@ -14,11 +20,12 @@ const props = defineProps({
   to: {
     type: String,
     required: false,
+    default: "",
   },
 });
 
 const buttonTag = computed(() => {
-  return props.to ? "router-link" : "button";
+  return to ? "router-link" : "button";
 });
 </script>
 
@@ -28,7 +35,7 @@ const buttonTag = computed(() => {
     :type="type"
     :disabled="disabled"
     :to="to"
-    class="button"
+    :class="['button', size ? `button--${size}` : '']"
   >
     <slot />
   </component>
@@ -39,14 +46,18 @@ const buttonTag = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.25rem;
+  padding: 0.75rem 0.75rem;
   background-color: $background-color-2;
   color: $text-color-1;
-  border: 1px solid $border-color-1;
+  box-shadow: inset 0 0 0 1px $border-color-1;
   @include text-md;
   cursor: pointer;
   transition: background-color 300ms ease;
   text-decoration: none;
+
+  &--small {
+    padding: 0.25rem;
+  }
 
   &:hover {
     background-color: $background-color-3;
