@@ -6,6 +6,7 @@ import vueDevTools from "vite-plugin-vue-devtools";
 import Components from "unplugin-vue-components/vite";
 
 export default defineConfig({
+  base: "/quarriors/",
   plugins: [
     vue(),
     vueDevTools(),
