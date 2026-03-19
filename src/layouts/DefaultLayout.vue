@@ -1,10 +1,18 @@
 <script setup></script>
 
 <template>
-  <div>
-    <slot />
-    <Relationships />
-  </div>
+  <section class="section">
+    <div class="container container--sm">
+      <slot />
+      <Account />
+      <Relationships />
+    </div>
+  </section>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.section {
+  width: 100%;
+  padding-block: $padding-md;
+}
+</style>

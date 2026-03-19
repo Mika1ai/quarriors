@@ -1,8 +1,10 @@
 import { supabase } from "@/services/supabaseClient";
 import { DOMAIN } from "@/config";
 import { router, ROUTES } from "@/router";
-import { api } from "@/services";
 import { createLoadingToast, updateLoadingToast } from "@/utils";
+import { useUserSession } from "@/composables";
+
+const { setupUserSession, teardownUserSession } = useUserSession();
 
 export const auth = {
   signUp: async (credentials) => {
@@ -84,18 +86,7 @@ export const auth = {
         success: true,
       });
 
-      userStore.setUser({
-        id: user.id,
-        email: user.email,
-        nickname: user.user_metadata.nickname,
-        isAuthenticated: user.role === "authenticated",
-      });
-      api.relationships.getRelationships({ relationshipsStore });
-      api.relationships.subscribeToChanges({
-        userStore,
-        relationshipsStore,
-        channelCallback: api.relationships.getRelationships,
-      });
+      setupUserSession({ user, userStore, relationshipsStore });
     } catch (error) {
       updateLoadingToast({
         target: notification,
@@ -148,18 +139,7 @@ export const auth = {
         success: true,
       });
 
-      userStore.setUser({
-        id: user.id,
-        email: user.email,
-        nickname: user.user_metadata.nickname,
-        isAuthenticated: user.role === "authenticated",
-      });
-      api.relationships.getRelationships({ relationshipsStore });
-      api.relationships.subscribeToChanges({
-        userStore,
-        relationshipsStore,
-        channelCallback: api.relationships.getRelationships,
-      });
+      setupUserSession({ user, userStore, relationshipsStore });
     } catch (error) {
       updateLoadingToast({
         target: notification,
@@ -182,10 +162,7 @@ export const auth = {
         success: true,
       });
 
-      api.relationships.unsubscribeFromChanges({ relationshipsStore });
-
-      relationshipsStore.clearRelationships();
-      userStore.clearUser();
+      teardownUserSession({ userStore, relationshipsStore });
     } catch (error) {
       updateLoadingToast({
         target: notification,

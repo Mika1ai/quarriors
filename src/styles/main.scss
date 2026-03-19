@@ -1,5 +1,7 @@
 @use './utils/reset.scss';
 @use './utils/fonts.scss';
+@use './utils/global.scss';
+@use './utils/transitions.scss';
 @use './utils/typography.scss';
 
 @use './components/app.scss';

@@ -19,7 +19,7 @@ export const utils = {
         success: true,
       });
 
-      return data.success;
+      return true;
     } catch (error) {
       updateLoadingToast({
         target: notification,

@@ -5,6 +5,8 @@ export const useUserStore = defineStore("userStore", {
     id: "",
     email: "",
     nickname: "",
+    avatarUrl: "",
+    avatarPath: "",
     isAuthenticated: false,
     isLoading: false,
   }),
@@ -16,6 +18,8 @@ export const useUserStore = defineStore("userStore", {
       this.id = user.id;
       this.email = user.email;
       this.nickname = user.nickname;
+      this.avatarUrl = user.avatarUrl;
+      this.avatarPath = user.avatarPath;
       this.isAuthenticated = user.isAuthenticated;
       this.isLoading = false;
     },
@@ -23,6 +27,8 @@ export const useUserStore = defineStore("userStore", {
       this.id = "";
       this.email = "";
       this.nickname = "";
+      this.avatarUrl = "";
+      this.avatarPath = "";
       this.isAuthenticated = false;
       this.isLoading = false;
     },

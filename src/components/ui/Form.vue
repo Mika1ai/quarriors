@@ -1,11 +1,11 @@
 <script setup>
-const emits = defineEmits(["on-submit"]);
+const emits = defineEmits(["submit"]);
 </script>
 
 <template>
   <form
     class="form"
-    @submit.prevent="$emit('on-submit')"
+    @submit.prevent="emits('submit')"
   >
     <header
       v-if="$slots.header"

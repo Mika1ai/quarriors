@@ -23,4 +23,8 @@ export const ROUTES = {
     PATH: "/update-password",
     NAME: "UpdatePassword",
   },
+  SETTINGS: {
+    PATH: "/settings",
+    NAME: "Settings",
+  },
 };

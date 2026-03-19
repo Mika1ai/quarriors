@@ -1,12 +1,13 @@
 <script setup>
-const { id, nickname, contactType } = defineProps({
-  id: {
-    type: String,
-    required: true,
-  },
+const { nickname, avatarUrl, contactType } = defineProps({
   nickname: {
     type: String,
     required: true,
+  },
+  avatarUrl: {
+    type: String,
+    required: false,
+    default: "",
   },
   contactType: {
     type: String,
@@ -24,34 +25,44 @@ const emits = defineEmits([
 
 <template>
   <li class="contact">
-    {{ nickname }}
+    <div class="contact__content">
+      <div class="contact__avatar">
+        <img
+          v-if="avatarUrl"
+          class="contact__avatar-image"
+          :src="avatarUrl"
+          alt="avatar"
+        />
+        <InlineSvg
+          v-else
+          src="icons/person.svg"
+        />
+      </div>
+      {{ nickname }}
+    </div>
 
     <div class="contact__actions">
       <UiButton
-        v-if="contactType === 'sentRequest'"
-        size="small"
-        @click="emits('cancel-friend-request', id)"
-      >
-        <InlineSvg src="icons/person-cancel.svg" />
-      </UiButton>
-      <UiButton
         v-if="contactType === 'friend'"
-        size="small"
-        @click="emits('delete-friend-request', id)"
+        @click.stop="emits('delete-friend-request')"
       >
         <InlineSvg src="icons/person-remove.svg" />
       </UiButton>
       <UiButton
-        v-if="contactType === 'receivedRequest'"
-        size="small"
-        @click="emits('reject-friend-request', id)"
+        v-if="contactType === 'sentRequest'"
+        @click="emits('cancel-friend-request')"
       >
         <InlineSvg src="icons/person-cancel.svg" />
       </UiButton>
       <UiButton
         v-if="contactType === 'receivedRequest'"
-        size="small"
-        @click="emits('accept-friend-request', id)"
+        @click="emits('reject-friend-request')"
+      >
+        <InlineSvg src="icons/person-cancel.svg" />
+      </UiButton>
+      <UiButton
+        v-if="contactType === 'receivedRequest'"
+        @click="emits('accept-friend-request')"
       >
         <InlineSvg src="icons/person-check.svg" />
       </UiButton>
@@ -63,10 +74,30 @@ const emits = defineEmits([
 .contact {
   width: 100%;
   box-shadow: inset 0 0 0 1px $border-color-1;
-  padding: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__avatar {
+    height: 3rem;
+    aspect-ratio: 1;
+    box-shadow: inset 0 0 0 1px $border-color-1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
 
   &__actions {
     display: flex;

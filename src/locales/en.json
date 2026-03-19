@@ -1,22 +1,41 @@
 {
   "common": {
     "loading": "Loading...",
-    "success": "Success"
+    "success": "Success",
+    "submit": "Submit",
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No"
   },
   "auth": {
     "sign_in": "Sign In",
     "sign_in_subtext": "Join battles by signing in",
     "sign_up": "Sign Up",
     "sign_up_subtext": "Sign Up to join the fights",
+    "sign_out": "Sign Out",
+    "sign_out_confirm": "Sign Out?",
+    "settings": "Settings",
     "reset_password": "Reset Password",
     "reset_password_subtext": "Reset Password if you forgot it",
     "update_password": "Update Password",
     "update_password_subtext": "Enter new Password to update it",
     "nickname": "Nickname",
     "password": "Password",
-    "submit": "Submit",
     "email": "Email",
-    "otp": "OTP"
+    "otp": "OTP",
+    "resend_otp": "Resend OTP",
+    "delete_account": "Delete Account",
+    "delete_account_confirm": "Are you sure you want to delete your account?"
+  },
+  "relationships": {
+    "friends": "Friends",
+    "received_requests": "Received requests",
+    "sent_requests": "Sent requests",
+    "enter_nickname": "Enter nickname",
+    "no_friends": "You have no friends yet",
+    "no_received_requests": "You have no received requests",
+    "no_sent_requests": "You have no sent requests",
+    "delete_friend_confirm": "Are you sure you want to delete \"{nickname}\" from your friends?"
   },
   "errors": {
     "over_email_send_rate_limit": "Over email send rate limit",

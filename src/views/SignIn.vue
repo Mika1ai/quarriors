@@ -39,7 +39,7 @@ const isFormValid = computed(() => {
 
 <template>
   <AuthScaffold>
-    <UiForm @on-submit="onFormSubmit">
+    <UiForm @submit="onFormSubmit">
       <template #header>
         <h2 class="heading-lg">
           {{ $t("auth.sign_in") }}
@@ -71,7 +71,7 @@ const isFormValid = computed(() => {
           type="submit"
           :disabled="!isFormValid"
         >
-          {{ $t("auth.submit") }}
+          {{ $t("common.submit") }}
         </UiButton>
       </template>
     </UiForm>

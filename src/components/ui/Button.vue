@@ -1,16 +1,16 @@
 <script setup>
 import { computed } from "vue";
 
-const { type, size, disabled, to } = defineProps({
+const { type, classes, disabled, to, pseudo } = defineProps({
   type: {
     type: String,
     required: false,
     default: "button",
   },
-  size: {
-    type: String,
+  classes: {
+    type: Array,
     required: false,
-    default: "",
+    default: () => [],
   },
   disabled: {
     type: Boolean,
@@ -22,10 +22,20 @@ const { type, size, disabled, to } = defineProps({
     required: false,
     default: "",
   },
+  pseudo: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 const buttonTag = computed(() => {
+  if (pseudo) return "div";
   return to ? "router-link" : "button";
+});
+
+const buttonClasses = computed(() => {
+  return classes.map((cls) => `button--${cls}`);
 });
 </script>
 
@@ -35,7 +45,7 @@ const buttonTag = computed(() => {
     :type="type"
     :disabled="disabled"
     :to="to"
-    :class="['button', size ? `button--${size}` : '']"
+    :class="['button', ...buttonClasses]"
   >
     <slot />
   </component>
@@ -43,6 +53,7 @@ const buttonTag = computed(() => {
 
 <style lang="scss" scoped>
 .button {
+  width: min-content;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,9 +65,14 @@ const buttonTag = computed(() => {
   cursor: pointer;
   transition: background-color 300ms ease;
   text-decoration: none;
+  white-space: nowrap;
 
-  &--small {
+  &--sm {
     padding: 0.25rem;
+  }
+
+  &--full-width {
+    width: 100%;
   }
 
   &:hover {

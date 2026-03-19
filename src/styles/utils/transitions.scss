@@ -1,0 +1,41 @@
+.slide-block-start-enter-active,
+.slide-block-start-leave-active,
+.slide-block-end-enter-active,
+.slide-block-end-leave-active,
+.slide-inline-start-enter-active,
+.slide-inline-start-leave-active,
+.slide-inline-end-enter-active,
+.slide-inline-end-leave-active {
+  transition-property: opacity, transform;
+  transition-duration: 300ms;
+  transition-timing-function: ease-in-out;
+}
+.slide-block-start-enter-from,
+.slide-block-start-leave-to {
+  opacity: 0;
+  transform: translateY(1.25rem);
+}
+.slide-block-end-enter-from,
+.slide-block-end-leave-to {
+  opacity: 0;
+  transform: translateY(-1.25rem);
+}
+.slide-inline-start-enter-from,
+.slide-inline-start-leave-to {
+  opacity: 0;
+  transform: translateX(1.25rem);
+}
+.slide-inline-end-enter-from,
+.slide-inline-end-leave-to {
+  opacity: 0;
+  transform: translateX(-1.25rem);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 300ms ease-in-out;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

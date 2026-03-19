@@ -42,6 +42,12 @@ const router = createRouter({
       component: () => import(`@/views/${ROUTES.HOME.NAME}.vue`),
       meta: { isAuthPage: false, layout: "default" },
     },
+    {
+      path: ROUTES.SETTINGS.PATH,
+      name: ROUTES.SETTINGS.NAME,
+      component: () => import(`@/views/${ROUTES.SETTINGS.NAME}.vue`),
+      meta: { isAuthPage: false, layout: "default" },
+    },
   ],
 });
 

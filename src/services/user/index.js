@@ -23,6 +23,8 @@ export const user = {
         id: user.id,
         email: user.email,
         nickname: user.user_metadata.nickname,
+        avatarUrl: user.user_metadata.avatar_url,
+        avatarPath: user.user_metadata.avatar_path,
         isAuthenticated: user.role === "authenticated",
       });
 

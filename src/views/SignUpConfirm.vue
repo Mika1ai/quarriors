@@ -48,7 +48,7 @@ const isFormValid = computed(() => {
 
 <template>
   <AuthScaffold>
-    <UiForm @on-submit="onFormSubmit">
+    <UiForm @submit="onFormSubmit">
       <template #header>
         <h2>Confirm</h2>
       </template>
@@ -64,17 +64,14 @@ const isFormValid = computed(() => {
       </template>
 
       <template #footer>
-        <UiButton
-          type="button"
-          @click="onResendClick"
-        >
-          Resend OTP
+        <UiButton @click="onResendClick">
+          {{ $t("auth.resend_otp") }}
         </UiButton>
         <UiButton
           type="submit"
           :disabled="!isFormValid"
         >
-          {{ $t("auth.submit") }}
+          {{ $t("common.submit") }}
         </UiButton>
       </template>
     </UiForm>
