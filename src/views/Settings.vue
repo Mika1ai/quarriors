@@ -83,7 +83,9 @@ const onEmailSave = async () => {
 
 <template>
   <div class="settings">
-    <h2 class="heading-lg">Settings</h2>
+    <h2 class="heading-lg">
+      {{ $t("settings.settings") }}
+    </h2>
 
     <div class="settings__field">
       <div class="avatar">

@@ -41,6 +41,12 @@ const onSignOutConfirm = async () => {
     >
       <template #trigger>
         <UiButton>
+          <img
+            v-if="userStore.avatarUrl"
+            class="account__image"
+            :src="userStore.avatarUrl"
+            alt="avatar"
+          />
           <InlineSvg src="icons/person.svg" />
         </UiButton>
       </template>
@@ -78,6 +84,14 @@ const onSignOutConfirm = async () => {
   position: fixed;
   inset-block-start: $padding-md;
   inset-inline-end: $padding-md;
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 
   &__menu {
     display: flex;

@@ -2,7 +2,6 @@
 import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore, useRelationshipsStore } from "@/stores";
-import { api } from "@/services";
 import { supabase } from "@/services/supabaseClient";
 import { useUserSession } from "@/composables";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";

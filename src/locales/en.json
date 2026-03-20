@@ -27,6 +27,13 @@
     "delete_account": "Delete Account",
     "delete_account_confirm": "Are you sure you want to delete your account?"
   },
+  "home": {
+    "quarriors": "Quarriors",
+    "create_lobby": "Create lobby"
+  },
+  "settings": {
+    "settings": "Settings"
+  },
   "relationships": {
     "friends": "Friends",
     "received_requests": "Received requests",

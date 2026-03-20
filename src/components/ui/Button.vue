@@ -53,6 +53,7 @@ const buttonClasses = computed(() => {
 
 <style lang="scss" scoped>
 .button {
+  position: relative;
   width: min-content;
   display: flex;
   align-items: center;
